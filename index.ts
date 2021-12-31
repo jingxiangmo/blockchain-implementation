@@ -1,5 +1,7 @@
 import * as crypto from 'crypto';
 
+
+// create an object of transactions
 class Transaction {
   constructor(
     public amount: number, 
@@ -7,8 +9,8 @@ class Transaction {
     public payee: string // public key
   ) {}
 
-  toString() {
-    return JSON.stringify(this);
+  toString() { 
+    return JSON.stringify(this); // this: the current object
   }
 }
 
@@ -32,7 +34,6 @@ class Block {
 
 
 class Chain {
-  // Singleton instance
   public static instance = new Chain();
 
   chain: Block[];
@@ -52,7 +53,7 @@ class Chain {
   // Proof of work system
   mine(nonce: number) {
     let solution = 1;
-    console.log('⛏️  mining...')
+    console.log('mining...')
 
     while(true) {
 
@@ -113,14 +114,24 @@ class Wallet {
   }
 }
 
-// Example usage
+// ==========================================================
+// =================== Example usage ========================
+// ==========================================================
 
-const satoshi = new Wallet();
-const bob = new Wallet();
-const alice = new Wallet();
+const A = new Wallet();
+const B = new Wallet();
+const C = new Wallet();
+const D = new Wallet();
 
-satoshi.sendMoney(50, bob.publicKey);
-bob.sendMoney(23, alice.publicKey);
-alice.sendMoney(5, bob.publicKey);
+A.sendMoney(99, C.publicKey);
+B.sendMoney(99, B.publicKey);
+C.sendMoney(99, A.publicKey);
+D.sendMoney(99, D.publicKey);
 
-console.log(Chain.instance)
+
+// print out the chain
+Chain.instance.chain.forEach(block => {
+  console.log(block.hash);
+}
+);
+
